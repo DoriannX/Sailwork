@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 5356724117160213333}
   - component: {fileID: 2419377293338698645}
   - component: {fileID: 1077260305449447570}
-  - component: {fileID: 8615322464990398093}
   - component: {fileID: 4761091311983519812}
+  - component: {fileID: 5323854174937534157}
   m_Layer: 6
   m_Name: Sailor
   m_TagString: Untagged
@@ -153,18 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68d8c66e42dd462281ad259bbb7b5e56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8615322464990398093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7832585840348158531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 213b029449594aac83a0a827d3cf551c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &4761091311983519812
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -186,3 +174,15 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5323854174937534157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7832585840348158531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 517b130cb43d45af9cceeaffc1e8aeda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

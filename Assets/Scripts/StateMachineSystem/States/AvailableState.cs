@@ -23,10 +23,11 @@ namespace StateMachineSystem.States
         {
             if (taskManager.IsTaskAvailable())
             {
-                movement.GoTo(taskManager.GetNearestTaskPosition());
+                movement.GoTo(taskManager.GetNextTask().transform.position);
             }
             else
             {
+                taskManager.AskNearestTask();
                 movement.Mop();
             }
         }

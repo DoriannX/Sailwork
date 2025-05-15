@@ -1,4 +1,5 @@
 using System;
+using Interfaces;
 using StateMachineSystem;
 using StateMachineSystem.Interfaces;
 using StateMachineSystem.States;
@@ -7,12 +8,12 @@ using UnityEngine.EventSystems;
 
 namespace SailorSystems
 {
-    public class SailorController : MonoBehaviour
+    public class SailorController : MonoBehaviour, IInteractable
     {
         [SerializeField] private Color defaultColor;
         
         private StateMachine stateMachine;
-        private SailorTaskManager taskManager;
+        public SailorTaskManager taskManager { get; private set; }
         private FatigueManager fatigueManager;
         private SailorMovement sailorMovement;
         private Renderer[] spriteRenderers;
@@ -38,6 +39,7 @@ namespace SailorSystems
             stateMachine = new StateMachine();
             taskManager = GetComponent<SailorTaskManager>();
             fatigueManager = GetComponent<FatigueManager>();
+            taskManager.onTaskCompleted += fatigueManager.AddFatigue;
             sailorMovement = GetComponent<SailorMovement>();
             spriteRenderers = GetComponentsInChildren<Renderer>();
             foreach (var spriteRenderer in spriteRenderers)
@@ -50,8 +52,12 @@ namespace SailorSystems
         {
             AvailableState availableState = new AvailableState(taskManager, sailorMovement);
             WaitingState waitingState = new WaitingState();
+            DoingTaskState doingState = new DoingTaskState(taskManager);
+            TiredState tiredState = new TiredState();
+            Any(tiredState, new FuncPredicate(() => fatigueManager.FatiguePercentage >= 1));
             Any(availableState, new FuncPredicate(ReturnToAvailable));
-            At(availableState, waitingState, new FuncPredicate(() => selected = true));
+            At(availableState, doingState, new FuncPredicate(() => taskManager.IsAtTask()));
+            At(availableState, waitingState, new FuncPredicate(() => selected));
             stateMachine.SetState(availableState);
         }
 
@@ -67,7 +73,7 @@ namespace SailorSystems
 
         private bool ReturnToAvailable()
         {
-            return fatigueManager.FatiguePercentage < 1 && !taskManager.isWorking && !selected;
+            return fatigueManager.FatiguePercentage < 1 && !taskManager.isWorking && !selected && !taskManager.IsAtTask();
         }
 
         private void At(IState from, IState to, IPredicate predicate)

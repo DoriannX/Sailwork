@@ -14,5 +14,10 @@ namespace SailorSystems
             }
             private set => _fatiguePercentage = Mathf.Clamp01(value);
         }
+        
+        public void AddFatigue(float fatigue)
+        {
+            FatiguePercentage += fatigue;
+        }
     }
 }

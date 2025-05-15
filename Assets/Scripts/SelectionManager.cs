@@ -1,4 +1,5 @@
 using System;
+using Interfaces;
 using SailorSystems;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,6 +18,10 @@ public class SelectionManager : MonoBehaviour
 
     private void SelectNewSailor(SailorController sailorController)
     {
+        if (selectedSailor == sailorController)
+        {
+            sailorController = null;
+        }
         previouslySelectedSailor = selectedSailor;
         previouslySelectedSailor?.Select(false);
         selectedSailor = sailorController;
@@ -30,14 +35,24 @@ public class SelectionManager : MonoBehaviour
         Debug.DrawRay(currentCamera.transform.position, ray.direction * 100, Color.red, 2f);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            SailorController sailor = hit.collider.GetComponent<SailorController>();
-            if (sailor == null || sailor == selectedSailor)
+            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+            if (interactable is SailorController sailor)
             {
+                SelectNewSailor(sailor);
+            }
+            else if (interactable is Task task && selectedSailor != null)
+            {
+                SailorTaskManager sailorTaskManager = selectedSailor.GetComponent<SailorTaskManager>();
+                if (sailorTaskManager != null)
+                {
+                    sailorTaskManager.ClearTasks();
+                    sailorTaskManager.AddTask(task);
+                }
                 SelectNewSailor(null);
             }
             else
             {
-                SelectNewSailor(sailor);
+                SelectNewSailor(null);
             }
         }
         else

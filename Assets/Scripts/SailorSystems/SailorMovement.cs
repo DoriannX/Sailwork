@@ -29,7 +29,7 @@ namespace SailorSystems
 
         private void Update()
         {
-            if (!reachedTarget && Vector3.Distance(sailorTransform.position, targetPosition) <= 0.5f)
+            if (!reachedTarget && Vector3.Distance(sailorTransform.position, targetPosition) <= 0.6f)
             {
                 reachedTarget = true;
             }
