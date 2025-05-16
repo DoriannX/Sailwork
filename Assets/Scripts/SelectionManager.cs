@@ -9,6 +9,7 @@ public class SelectionManager : MonoBehaviour
     public SailorController selectedSailor { get; private set; }
     public SailorController previouslySelectedSailor { get; private set; }
     public event Action onNewSelectedSailor;
+    public static event Action<bool> onActorSelected;
     Camera currentCamera;
 
     private void Awake()
@@ -26,6 +27,7 @@ public class SelectionManager : MonoBehaviour
         previouslySelectedSailor?.Select(false);
         selectedSailor = sailorController;
         selectedSailor?.Select(true);
+        onActorSelected?.Invoke(sailorController);
         onNewSelectedSailor?.Invoke();
     }
 

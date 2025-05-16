@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace SailorSystems
@@ -15,6 +16,11 @@ namespace SailorSystems
         private void Start()
         {
             selectionManager.onNewSelectedSailor += ChangeSailorColor;
+        }
+
+        private void OnDestroy()
+        {
+            selectionManager.onNewSelectedSailor -= ChangeSailorColor;
         }
 
         private void ChangeSailorColor()

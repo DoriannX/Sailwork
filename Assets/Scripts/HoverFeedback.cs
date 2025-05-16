@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace SailorSystems
 {
-    public class SailorHoverFeedback : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class HoverFeedback : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private Transform rendererTransform;
 
