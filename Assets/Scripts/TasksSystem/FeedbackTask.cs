@@ -1,3 +1,4 @@
+using System;
 using SailorSystems;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,6 +21,12 @@ namespace TasksSystem
             hoverFeedback = GetComponent<HoverFeedback>();
             hoverFeedback.enabled = false;
             SelectionManager.onActorSelected += OnNewSelectedSailor;
+        }
+
+        private void OnDestroy()
+        {
+            
+            SelectionManager.onActorSelected -= OnNewSelectedSailor;
         }
 
         private void OnNewSelectedSailor(bool selected)

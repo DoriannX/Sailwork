@@ -90,10 +90,5 @@ namespace SailorSystems
             isWorking = true;
             onTaskStarted?.Invoke(GetNextTask());
         }
-
-        public void ClearTasks()
-        {
-            askedTasks.Clear();
-        }
     }
 }

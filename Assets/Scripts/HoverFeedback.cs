@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -16,6 +17,11 @@ namespace SailorSystems
         public void OnPointerExit(PointerEventData eventData)
         {
             rendererTransform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBounce);
+        }
+
+        private void OnDisable()
+        {
+            OnPointerExit(null);
         }
     }
 }

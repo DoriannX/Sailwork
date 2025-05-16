@@ -23,11 +23,13 @@ public class SelectionManager : MonoBehaviour
         {
             sailorController = null;
         }
+
         previouslySelectedSailor = selectedSailor;
         previouslySelectedSailor?.Select(false);
         selectedSailor = sailorController;
         selectedSailor?.Select(true);
-        onActorSelected?.Invoke(sailorController);
+        onActorSelected?.Invoke(sailorController != null);
+
         onNewSelectedSailor?.Invoke();
     }
 
@@ -47,9 +49,9 @@ public class SelectionManager : MonoBehaviour
                 SailorTaskManager sailorTaskManager = selectedSailor.GetComponent<SailorTaskManager>();
                 if (sailorTaskManager != null)
                 {
-                    sailorTaskManager.ClearTasks();
                     sailorTaskManager.AddTask(task);
                 }
+
                 SelectNewSailor(null);
             }
             else
