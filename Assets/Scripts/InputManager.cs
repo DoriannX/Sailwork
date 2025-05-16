@@ -1,14 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    private SelectionManager selectionManager;
-        
-    private void Awake()
-    {
-        selectionManager = GetComponent<SelectionManager>();
-    }
+    [SerializeField] private SelectionManager selectionManager;
+    public static event Action onPauseInputTriggered;
 
     public void OnClick(InputAction.CallbackContext context)
     {
@@ -16,5 +13,18 @@ public class InputManager : MonoBehaviour
         {
             selectionManager.OnClick();
         }
+    }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            onPauseInputTriggered?.Invoke();
+        }
+    }
+    
+    public static void TriggerPauseInput()
+    {
+        onPauseInputTriggered?.Invoke();
     }
 }

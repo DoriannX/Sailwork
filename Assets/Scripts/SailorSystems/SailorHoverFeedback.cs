@@ -10,7 +10,7 @@ namespace SailorSystems
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            rendererTransform.DOScale(Vector3.one * 1.5f, 0.5f).SetEase(Ease.InBounce);
+            rendererTransform.DOScale(Vector3.one * 1.5f, 0.5f).SetEase(Ease.OutBounce);
         }
 
         public void OnPointerExit(PointerEventData eventData)
