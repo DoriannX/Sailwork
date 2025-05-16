@@ -9,6 +9,7 @@ namespace SailorSystems
         public bool done { get; private set; }
         private bool started;
         public bool isAvailable => !done && !started;
+        [field: SerializeField] public Sprite icon { get; private set; }
         [SerializeField] private string taskName;
 
         [field: SerializeField, Range(0, 1)] public float fatiguePercentage { get; private set; } = 0.1f;

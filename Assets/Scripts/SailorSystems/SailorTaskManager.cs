@@ -7,7 +7,7 @@ namespace SailorSystems
 {
     public class SailorTaskManager : MonoBehaviour
     {
-        private Queue<Task> askedTasks = new();
+        public Queue<Task> askedTasks { get; } = new();
 
         public event Action<SailorTaskManager> onTaskAsked;
         public event Action<Task> onTaskStarted;

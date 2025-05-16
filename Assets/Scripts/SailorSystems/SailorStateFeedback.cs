@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace SailorSystems
 {
@@ -6,11 +8,12 @@ namespace SailorSystems
     {
         private SailorController sailorController;
         private HoverFeedback hoverFeedback;
+        [SerializeField] private Image tiredImage;
         [SerializeField] private Color availableColor;
         [SerializeField] private Color tiredColor;
         [SerializeField] private Color doingColor;
         [SerializeField] private Color waitingColor;
-        
+
 
         private void Awake()
         {
@@ -20,13 +23,22 @@ namespace SailorSystems
 
         private void Start()
         {
+            tiredImage.gameObject.SetActive(false);
             sailorController.sailorColor = availableColor;
             sailorController.availableState.onStateEnter += OnAvailableStateEnter;
-            sailorController.tiredState.onStateEnter += () => sailorController.sailorColor = tiredColor;
+            sailorController.tiredState.onStateEnter += OnTiredStateEnter;
+            sailorController.tiredState.onStateExit += () => tiredImage.gameObject.SetActive(false);
             sailorController.doingState.onStateEnter += () => sailorController.sailorColor = doingColor;
             sailorController.waitingState.onStateEnter += () => sailorController.sailorColor = waitingColor;
             sailorController.availableState.onStateExit += OnAvailableStateExit;
         }
+
+        private void OnTiredStateEnter()
+        {
+            sailorController.sailorColor = tiredColor;
+            tiredImage.gameObject.SetActive(true);
+        }
+
         private void OnAvailableStateEnter()
         {
             sailorController.sailorColor = availableColor;
@@ -37,7 +49,5 @@ namespace SailorSystems
         {
             hoverFeedback.SetActive(false);
         }
-
-        
     }
 }

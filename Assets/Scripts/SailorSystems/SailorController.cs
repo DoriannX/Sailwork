@@ -10,7 +10,7 @@ namespace SailorSystems
     {
         
         private StateMachine stateMachine;
-        public SailorTaskManager taskManager { get; private set; }
+        public SailorTaskManager taskManager { get; private set;}
         private SailorFatigueManager sailorFatigueManager;
         private SailorMovement sailorMovement;
         private Renderer[] spriteRenderers;
@@ -55,6 +55,7 @@ namespace SailorSystems
             Any(availableState, new FuncPredicate(ReturnToAvailable));
             At(availableState, doingState, new FuncPredicate(() => taskManager.IsAtTask()));
             At(availableState, waitingState, new FuncPredicate(() => selected));
+            At(doingState, waitingState, new FuncPredicate(() => !taskManager.isWorking && selected));
             stateMachine.SetState(availableState);
         }
 
