@@ -14,7 +14,7 @@ namespace SailorSystems
         
         private StateMachine stateMachine;
         public SailorTaskManager taskManager { get; private set; }
-        private FatigueManager fatigueManager;
+        private SailorFatigueManager sailorFatigueManager;
         private SailorMovement sailorMovement;
         private Renderer[] spriteRenderers;
         private Color _sailorColor;
@@ -38,8 +38,8 @@ namespace SailorSystems
         {
             stateMachine = new StateMachine();
             taskManager = GetComponent<SailorTaskManager>();
-            fatigueManager = GetComponent<FatigueManager>();
-            taskManager.onTaskCompleted += fatigueManager.AddFatigue;
+            sailorFatigueManager = GetComponent<SailorFatigueManager>();
+            taskManager.onTaskCompleted += sailorFatigueManager.AddFatigue;
             sailorMovement = GetComponent<SailorMovement>();
             spriteRenderers = GetComponentsInChildren<Renderer>();
             foreach (var spriteRenderer in spriteRenderers)
@@ -53,8 +53,8 @@ namespace SailorSystems
             AvailableState availableState = new AvailableState(taskManager, sailorMovement);
             WaitingState waitingState = new WaitingState();
             DoingTaskState doingState = new DoingTaskState(taskManager);
-            TiredState tiredState = new TiredState();
-            Any(tiredState, new FuncPredicate(() => fatigueManager.FatiguePercentage >= 1));
+            TiredState tiredState = new TiredState(sailorMovement, sailorFatigueManager);
+            Any(tiredState, new FuncPredicate(() => sailorFatigueManager.fatiguePercentage >= 1));
             Any(availableState, new FuncPredicate(ReturnToAvailable));
             At(availableState, doingState, new FuncPredicate(() => taskManager.IsAtTask()));
             At(availableState, waitingState, new FuncPredicate(() => selected));
@@ -73,7 +73,7 @@ namespace SailorSystems
 
         private bool ReturnToAvailable()
         {
-            return fatigueManager.FatiguePercentage < 1 && !taskManager.isWorking && !selected && !taskManager.IsAtTask();
+            return sailorFatigueManager.fatiguePercentage < 1 && !sailorFatigueManager.isResting && !taskManager.isWorking && !selected && !taskManager.IsAtTask();
         }
 
         private void At(IState from, IState to, IPredicate predicate)

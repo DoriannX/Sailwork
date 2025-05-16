@@ -10,6 +10,7 @@ namespace SailorSystems
         private Queue<Task> askedTasks = new();
 
         public event Action<SailorTaskManager> onTaskAsked;
+        public event Action<Task> onTaskStarted;
         
         public event Action<float> onTaskCompleted; 
         
@@ -87,6 +88,7 @@ namespace SailorSystems
         public void StartTask()
         {
             isWorking = true;
+            onTaskStarted?.Invoke(GetNextTask());
         }
 
         public void ClearTasks()

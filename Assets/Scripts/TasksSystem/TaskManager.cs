@@ -7,21 +7,17 @@ namespace SailorSystems
     public class TaskManager : MonoBehaviour
     {
         [SerializeField] private List<Task> tasks = new();
-        private Transform sailorTransform;
         private SailorsManager sailorsManager;
 
         private void Awake()
         {
             sailorsManager = GetComponent<SailorsManager>();
+            sailorsManager.onSailorsSpawned += BindEvent;
         }
 
-        private void Start()
+        private void BindEvent(SailorController sailorController)
         {
-            sailorTransform = transform;
-            foreach (SailorController sailorController in sailorsManager.sailorsController)
-            {
-                sailorController.taskManager.onTaskAsked += GiveNearestTask;
-            }
+            sailorController.taskManager.onTaskAsked += GiveNearestTask;
         }
 
         private void GiveNearestTask(SailorTaskManager sailorTaskManager)

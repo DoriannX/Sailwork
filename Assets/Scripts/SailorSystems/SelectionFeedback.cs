@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
 
 namespace SailorSystems
 {
-    public class SailorSelectionFeedback : MonoBehaviour
+    public class SelectionFeedback : MonoBehaviour
     {
         [SerializeField] private Color selectedColor;
         SelectionManager selectionManager;
@@ -21,10 +20,11 @@ namespace SailorSystems
         private void ChangeSailorColor()
         {
             selectionManager.previouslySelectedSailor?.ResetColor();
-            if(selectionManager.selectedSailor == null)
+            if (selectionManager.selectedSailor == null)
             {
                 return;
             }
+
             selectionManager.selectedSailor.sailorColor = selectedColor;
         }
     }

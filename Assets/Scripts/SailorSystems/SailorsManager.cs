@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,19 +7,30 @@ namespace SailorSystems
 {
     public class SailorsManager : MonoBehaviour
     {
-        [SerializeField] private Transform[] spawnPoints;
         [SerializeField] private SailorController sailorPrefab;
-        public List<SailorController> sailorsController { get; } = new();
-        private Transform managerTransform;
+        [SerializeField] private float spawnCount;
+        [SerializeField] private float spawnDelaySecond;
+        [SerializeField] private Transform spawnParent;
+        private RestPoint restPoint;
+        public event Action<SailorController> onSailorsSpawned;
         private void Awake()
         {
-            managerTransform = transform;
-            foreach (var spawnPoint in spawnPoints)
+            restPoint = GetComponent<RestPoint>();
+        }
+
+        private void Start()
+        {
+            StartCoroutine(SpawnSailors());
+        }
+
+        private IEnumerator SpawnSailors()
+        {
+            for (int i = 0; i < spawnCount; i++)
             {
-                SailorController instancedController = Instantiate(sailorPrefab, managerTransform);
-                instancedController.transform.position = spawnPoint.position;
-                instancedController.transform.rotation = spawnPoint.rotation;
-                sailorsController.Add(instancedController);
+                SailorController instancedController = Instantiate(sailorPrefab, spawnParent);
+                instancedController.GetComponent<SailorFatigueManager>().SetRestPointPos(restPoint.transform.position);
+                onSailorsSpawned?.Invoke(instancedController);
+                yield return new WaitForSeconds(spawnDelaySecond);
             }
         }
     }
