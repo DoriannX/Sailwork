@@ -40,7 +40,7 @@ namespace TasksSystem
 
         private void ToggleHover(bool state)
         {
-            hoverFeedback.enabled = state;
+            hoverFeedback.SetActive(state);
         }
 
         private void OnTaskComplete()

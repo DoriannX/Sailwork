@@ -383,6 +383,7 @@ GameObject:
   - component: {fileID: 5323854174937534157}
   - component: {fileID: 5396694957018274575}
   - component: {fileID: 4304383069084349793}
+  - component: {fileID: 6125360641481630318}
   m_Layer: 6
   m_Name: Sailor
   m_TagString: Untagged
@@ -419,7 +420,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f464e23be1240adb9acf2410ca859cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!114 &5356724117160213333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,3 +529,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 6115643103884568518}
   fill: {fileID: 7657103956848555675}
+--- !u!114 &6125360641481630318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7832585840348158531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ed99ea3042f4b6fa03e71f622313374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  availableColor: {r: 0, g: 1, b: 0.2178235, a: 1}
+  tiredColor: {r: 1, g: 0, b: 0, a: 1}
+  doingColor: {r: 0, g: 0.07074835, b: 0.9716981, a: 1}
+  waitingColor: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}

@@ -1,16 +1,13 @@
-using System;
 using Interfaces;
 using StateMachineSystem;
 using StateMachineSystem.Interfaces;
 using StateMachineSystem.States;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace SailorSystems
 {
     public class SailorController : MonoBehaviour, IInteractable
     {
-        [SerializeField] private Color defaultColor;
         
         private StateMachine stateMachine;
         public SailorTaskManager taskManager { get; private set; }
@@ -32,7 +29,11 @@ namespace SailorSystems
         }
 
         private bool selected;
-        
+        public TiredState tiredState { get; private set; }
+        public AvailableState availableState { get; private set; }
+        public WaitingState waitingState { get; private set; }
+        public DoingTaskState doingState { get; private set; }
+
 
         private void Awake()
         {
@@ -42,18 +43,14 @@ namespace SailorSystems
             taskManager.onTaskCompleted += sailorFatigueManager.AddFatigue;
             sailorMovement = GetComponent<SailorMovement>();
             spriteRenderers = GetComponentsInChildren<Renderer>();
-            foreach (var spriteRenderer in spriteRenderers)
-            {
-                spriteRenderer.material = new Material(spriteRenderer.material) { color = defaultColor };
-            }
+            availableState = new AvailableState(taskManager, sailorMovement);
+            waitingState = new WaitingState();
+            doingState = new DoingTaskState(taskManager);
+            tiredState = new TiredState(sailorMovement, sailorFatigueManager);
         }
 
         private void Start()
         {
-            AvailableState availableState = new AvailableState(taskManager, sailorMovement);
-            WaitingState waitingState = new WaitingState();
-            DoingTaskState doingState = new DoingTaskState(taskManager);
-            TiredState tiredState = new TiredState(sailorMovement, sailorFatigueManager);
             Any(tiredState, new FuncPredicate(() => sailorFatigueManager.fatiguePercentage >= 1));
             Any(availableState, new FuncPredicate(ReturnToAvailable));
             At(availableState, doingState, new FuncPredicate(() => taskManager.IsAtTask()));
@@ -84,11 +81,6 @@ namespace SailorSystems
         private void Any(IState to, IPredicate predicate)
         {
             stateMachine.AddAnyTransition(to, predicate);
-        }
-
-        public void ResetColor()
-        {
-            sailorColor = defaultColor;
         }
 
         public void Select(bool state)

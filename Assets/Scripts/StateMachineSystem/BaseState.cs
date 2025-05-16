@@ -5,6 +5,7 @@ namespace StateMachineSystem
 {
     public abstract class BaseState : IState {
         public event Action onStateEnter;
+        public event Action onStateExit;
     
         protected const float crossFadeDuration = 0.1f;
     
@@ -23,6 +24,7 @@ namespace StateMachineSystem
 
         public virtual void OnExit() {
             // noop
+            onStateExit?.Invoke();
         }
     }
 }

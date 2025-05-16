@@ -7,6 +7,7 @@ namespace StateMachineSystem.States
     {
         private SailorTaskManager taskManager;
         private SailorMovement movement;
+
         public AvailableState(SailorTaskManager taskManager, SailorMovement movement)
         {
             this.taskManager = taskManager;
