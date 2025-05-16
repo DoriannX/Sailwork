@@ -1,7 +1,5 @@
-using System;
 using SailorSystems;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace TasksSystem
 {
@@ -15,27 +13,39 @@ namespace TasksSystem
         {
             renderer = GetComponentInChildren<Renderer>();
             task = GetComponent<Task>();
-            
+
             task.onAvailable += OnTaskAvailable;
+            task.onStarted += OnTaskStarted;
             task.onComplete += OnTaskComplete;
             hoverFeedback = GetComponent<HoverFeedback>();
-            hoverFeedback.enabled = false;
+            ToggleHover(false);
             SelectionManager.onActorSelected += OnNewSelectedSailor;
+        }
+
+        private void OnTaskStarted()
+        {
+            ToggleHover(false);
+            renderer.material.color = Color.yellow;
         }
 
         private void OnDestroy()
         {
-            
             SelectionManager.onActorSelected -= OnNewSelectedSailor;
         }
 
         private void OnNewSelectedSailor(bool selected)
         {
-            hoverFeedback.enabled = selected;
+            ToggleHover(selected && task.isAvailable);
+        }
+
+        private void ToggleHover(bool state)
+        {
+            hoverFeedback.enabled = state;
         }
 
         private void OnTaskComplete()
         {
+            ToggleHover(false);
             renderer.material.color = Color.blue;
         }
 

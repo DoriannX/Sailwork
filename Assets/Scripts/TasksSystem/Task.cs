@@ -17,8 +17,9 @@ namespace SailorSystems
         [SerializeField, Min(0)] private float rechargeTime = 1f;
 
         public float completePercentage { get; private set; }
-        
+
         public event Action onComplete;
+        public event Action onStarted;
         public event Action onAvailable;
 
         private void Start()
@@ -26,13 +27,19 @@ namespace SailorSystems
             onAvailable?.Invoke();
         }
 
-        public void CompleteTask()  
+        public void CompleteTask()
         {
-            started = true;
+            if (!started)
+            {
+                onStarted?.Invoke();
+                started = true;
+            }
+
             if (done)
             {
                 return;
             }
+
             completePercentage += Time.deltaTime / timeToComplete;
             if (completePercentage >= 1)
             {
@@ -48,11 +55,13 @@ namespace SailorSystems
             {
                 return;
             }
+
             completePercentage -= Time.deltaTime / rechargeTime;
             if (!(completePercentage <= 0))
             {
                 return;
             }
+
             completePercentage = 0;
             done = false;
             onAvailable?.Invoke();
