@@ -1,14 +1,17 @@
-using SailorSystems.Sound;
+using System.Collections;
 using UnityEngine;
-using static SailorSystems.Sound.SoundManager.Sound;
+using static Sound.SoundManager.Sound;
 
 namespace Sound
 {
+    /// <summary>
+    /// This class is responsible for managing the game music.
+    /// </summary>
     [RequireComponent(typeof(SoundManager))]
     public class GameMusicManager : MonoBehaviour
     {
         private SoundManager soundManager;
-        private int currentMusicIndex = 1;
+        private int currentMusicIndex;
         private readonly SoundManager.Sound[] ambientTracks = { AmbientMusic1, AmbientMusic2, AmbientMusic3 };
 
         private void Awake()
@@ -21,9 +24,12 @@ namespace Sound
             PlayNextTrack();
         }
 
+        /// <summary>
+        /// This method fade in the next track in the ambient tracks array and fades out the previous track.
+        /// </summary>
         private void PlayNextTrack()
         {
-            SoundManager.Sound nextTrack = ambientTracks[currentMusicIndex - 1];
+            SoundManager.Sound nextTrack = ambientTracks[currentMusicIndex];
             AudioClip clip = soundManager.PlaySound(nextTrack);
             
             if (clip != null)
@@ -35,6 +41,7 @@ namespace Sound
                 Invoke(nameof(PlayNextTrack), clip.length);
             }
             
+            // Increment the index to play the next track
             currentMusicIndex = currentMusicIndex % ambientTracks.Length + 1;
         }
         
@@ -43,7 +50,10 @@ namespace Sound
             StartCoroutine(FadeAudioSource(1.0f, 0.0f)); 
         }
         
-        private System.Collections.IEnumerator FadeAudioSource(float duration, float targetVolume)
+        /// <summary>
+        /// this method is used to fade the audio source volume from the current volume to the target volume over a specified duration.
+        /// </summary>
+        private IEnumerator FadeAudioSource(float duration, float targetVolume)
         {
             AudioSource audioSource = soundManager.GetAudioSource();
             float currentTime = 0;

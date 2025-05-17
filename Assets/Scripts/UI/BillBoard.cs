@@ -2,25 +2,40 @@ using UnityEngine;
 
 namespace UI
 {
-    public enum PivotAxis
-    {
-        Free,
-        X,
-        Y
-    }
-
     /// <summary>
     /// The Billboard class implements the behaviors needed to keep a GameObject 
     /// oriented towards the user.
     /// </summary>
     public class Billboard : MonoBehaviour
     {
-        public PivotAxis PivotAxis = PivotAxis.Free;
-        public Quaternion DefaultRotation { get; private set; }
+        private enum PivotAxis
+        {
+            Free,
+            X,
+            Y
+        }
+
+        [SerializeField] private PivotAxis pivotAxis = PivotAxis.Free;
+        private Quaternion defaultRotation { get; set; }
+
+        private Transform _mainCameraTransform;
+        private Transform mainCameraTransform
+        {
+            get
+            {
+                if (_mainCameraTransform == null)
+                {
+                    _mainCameraTransform = Camera.main.transform;
+                }
+                return _mainCameraTransform;
+            }
+        }
+        private Transform selfTransform;
 
         private void Awake()
         {
-            DefaultRotation = gameObject.transform.rotation;
+            selfTransform = transform;
+            defaultRotation = gameObject.transform.rotation;
         }
 
         /// <summary>
@@ -30,23 +45,24 @@ namespace UI
         /// </summary>
         private void FixedUpdate()
         {
-            Vector3 directionToTarget = Camera.main.transform.position - gameObject.transform.position;
+            Vector3 directionToTarget = mainCameraTransform.position - selfTransform.position;
 
-            switch (PivotAxis)
+            switch (pivotAxis)
             {
                 case PivotAxis.X:
-                    directionToTarget.x = gameObject.transform.position.x;
+                    directionToTarget.x = selfTransform.position.x;
                     break;
 
                 case PivotAxis.Y:
-                    directionToTarget.y = gameObject.transform.position.y;
+                    directionToTarget.y = selfTransform.position.y;
                     break;
 
                 case PivotAxis.Free:
                 default:
                     break;
             }
-            gameObject.transform.rotation = Quaternion.LookRotation(-directionToTarget) * DefaultRotation;
+
+            selfTransform.rotation = Quaternion.LookRotation(-directionToTarget) * defaultRotation;
         }
     }
 }

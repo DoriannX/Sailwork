@@ -1,43 +1,48 @@
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Sound
 {
-    public class SFXManager : MonoBehaviour
+    /// <summary>
+    /// This class is responsible for playing sound effects in the game.
+    /// </summary>
+    public class SfxManager : MonoBehaviour
     {
-        public enum SFX
+        public enum Sfx
         {
             Click,
         }
 
-        [SerializeField] private SerializedDictionary<SFX, AudioClip> soundEffects;
+        [SerializeField] private SerializedDictionary<Sfx, AudioClip> soundEffects;
         [SerializeField] private AudioSource sfxSourcePrefab;
+        private Transform sfxManagerTransform;
 
-        public void PlaySFX(SFX sfx, Vector3 position = default)
+        private void Awake()
         {
-            if (!soundEffects.TryGetValue(sfx, out AudioClip clip))
-            {
-                return;
-            }
-
-            AudioSource audioSource = Instantiate(sfxSourcePrefab, position, Quaternion.identity);
-            audioSource.clip = clip;
-            audioSource.Play();
-
-            float clipDuration = clip.length;
-            Destroy(audioSource.gameObject, clipDuration);
+            Assert.IsNotNull(sfxSourcePrefab);
+            sfxManagerTransform = transform;
         }
 
-        public void PlaySFXWithVolume(SFX sfx, float volume, Vector3 position = default)
+        /// <summary>
+        /// This method is used to instantiate an audio source and play the sound effect
+        /// </summary>
+        /// <param name="sfx"> the sfx that has to be played</param>
+        /// <param name="volume"> the volume of the sfx </param>
+        public void PlaySfx(Sfx sfx, float? volume = null)
         {
             if (!soundEffects.TryGetValue(sfx, out AudioClip clip))
             {
                 return;
             }
 
-            AudioSource audioSource = Instantiate(sfxSourcePrefab, position, Quaternion.identity);
+            AudioSource audioSource = Instantiate(sfxSourcePrefab, sfxManagerTransform);
+            if (volume.HasValue)
+            {
+                audioSource.volume = volume.Value;
+            }
+
             audioSource.clip = clip;
-            audioSource.volume = volume;
             audioSource.Play();
 
             float clipDuration = clip.length;

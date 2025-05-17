@@ -1,9 +1,12 @@
-using System;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
-namespace SailorSystems.Sound
+namespace Sound
 {
+    /// <summary>
+    /// This class is responsible for playing all the sounds in the game.
+    /// </summary>
+    [RequireComponent(typeof(AudioSource))]
     public class SoundManager : MonoBehaviour
     {
         public enum Sound
@@ -21,22 +24,22 @@ namespace SailorSystems.Sound
             audioSource = GetComponent<AudioSource>();
         }
 
-        public AudioClip PlaySound(Sound sound)
+        /// <summary>
+        /// This method is used to play a sound and chose whether to loop it or not.
+        /// </summary>
+        /// <param name="sound"> the sound that has to be played </param>
+        /// <param name="loop"></param>
+        /// <returns> the audio clip used to play the sound </returns>
+        public AudioClip PlaySound(Sound sound, bool loop = false)
         {
             if (!sounds.TryGetValue(sound, out AudioClip clip))
             {
                 return null;
             }
             audioSource.clip = clip;
-            audioSource.loop = false;
+            audioSource.loop = loop;
             audioSource.Play();
             return clip;
-        }
-        
-        public void PlaySoundLoop( Sound sound)
-        {
-            PlaySound(sound);
-            audioSource.loop = true;
         }
 
         public AudioSource GetAudioSource()

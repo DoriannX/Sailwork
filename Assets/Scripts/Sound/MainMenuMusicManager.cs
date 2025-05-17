@@ -1,10 +1,12 @@
 using System;
-using SailorSystems.Sound;
 using UnityEngine;
-using static SailorSystems.Sound.SoundManager.Sound;
+using static Sound.SoundManager.Sound;
 
 namespace Sound
 {
+    /// <summary>
+    /// This class is responsible for managing the main menu music.
+    /// </summary>
     [RequireComponent(typeof(SoundManager))]
     public class MainMenuMusicManager : MonoBehaviour
     {
@@ -17,7 +19,7 @@ namespace Sound
 
         private void Start()
         {
-            soundManager.PlaySoundLoop(MenuMusic);
+            soundManager.PlaySound(MenuMusic, true);
         }
     }
 }

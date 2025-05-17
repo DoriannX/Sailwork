@@ -3,6 +3,9 @@ using StateMachineSystem.Interfaces;
 
 namespace StateMachineSystem
 {
+    /// <summary>
+    /// This class is the base class for all states in the state machine.
+    /// </summary>
     public abstract class BaseState : IState {
         public event Action onStateEnter;
         public event Action onStateExit;

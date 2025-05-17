@@ -2,6 +2,10 @@ using UnityEngine;
 
 namespace UI
 {
+    /// <summary>
+    /// This class is responsible for managing the tooltip UI.
+    /// </summary>
+    [RequireComponent(typeof(CanvasGroup))]
     public class TooltipManager : MonoBehaviour
     {
         private CanvasGroup canvasGroup;

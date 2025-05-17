@@ -1,8 +1,10 @@
-using SailorSystems;
-using UnityEngine;
+using Gameplay.Sailors;
 
 namespace StateMachineSystem.States
 {
+    /// <summary>
+    /// This class is responsible for managing the state of a sailor when they are doing a task.
+    /// </summary>
     public class DoingTaskState : BaseState
     {
         private readonly SailorTaskManager taskManager;

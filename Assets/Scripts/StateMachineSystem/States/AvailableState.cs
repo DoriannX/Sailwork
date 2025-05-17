@@ -1,12 +1,14 @@
-using SailorSystems;
-using UnityEngine;
+using Gameplay.Sailors;
 
 namespace StateMachineSystem.States
 {
+    /// <summary>
+    /// This class is responsible for the available state of the sailor.
+    /// </summary>
     public class AvailableState : BaseState
     {
-        private SailorTaskManager taskManager;
-        private SailorMovement movement;
+        private readonly SailorTaskManager taskManager;
+        private readonly SailorMovement movement;
 
         public AvailableState(SailorTaskManager taskManager, SailorMovement movement)
         {
@@ -20,6 +22,9 @@ namespace StateMachineSystem.States
             SearchForTask();
         }
 
+        /// <summary>
+        /// This method is used to search for a task and mop while doing it if no task is available.
+        /// </summary>
         private void SearchForTask()
         {
             if (taskManager.IsTaskAvailable())

@@ -4,47 +4,61 @@ using StateMachineSystem.Interfaces;
 
 namespace StateMachineSystem
 {
+    /// <summary>
+    /// This class is responsible for managing the state machine.
+    /// </summary>
     public class StateMachine {
-        StateNode current;
-        Dictionary<Type, StateNode> nodes = new();
-        HashSet<ITransition> anyTransitions = new();
+        private StateNode current;
+        private readonly Dictionary<Type, StateNode> nodes = new();
+        private readonly HashSet<ITransition> anyTransitions = new();
 
+        /// <summary>
+        /// This method is used to check if the state machine has to transition to a new state and update the current state.
+        /// </summary>
         public void Update() {
-            var transition = GetTransition();
+            ITransition transition = GetTransition();
             if (transition != null) 
-                ChangeState(transition.To);
+                ChangeState(transition.to);
             
-            current.State?.Update();
+            current.state?.Update();
         }
         
         public void FixedUpdate() {
-            current.State?.FixedUpdate();
+            current.state?.FixedUpdate();
         }
 
         public void SetState(IState state) {
             current = nodes[state.GetType()];
-            current.State?.OnEnter();
+            current.state?.OnEnter();
         }
 
+        /// <summary>
+        /// This method is used to change the current state of the state machine
+        /// by calling the OnExit method of the previous state and the OnEnter method of the new state.
+        /// </summary>
+        /// <param name="state"></param>
         private void ChangeState(IState state) {
-            if (state == current.State) return;
+            if (state == current.state) return;
             
-            var previousState = current.State;
-            var nextState = nodes[state.GetType()].State;
+            IState previousState = current.state;
+            IState nextState = nodes[state.GetType()].state;
             
             previousState?.OnExit();
             nextState?.OnEnter();
             current = nodes[state.GetType()];
         }
-        
-        
 
-        ITransition GetTransition() {
-            foreach (var transition in anyTransitions)
+
+        /// <summary>
+        /// This method is used to get first the any transition that is valid and then the current state transition.
+        /// </summary>
+        /// <returns></returns>
+        private ITransition GetTransition() {
+            foreach (ITransition transition in anyTransitions)
                 if (transition.condition.Evaluate())
                     return transition;
             
-            foreach (var transition in current.Transitions)
+            foreach (ITransition transition in current.transitions)
                 if (transition.condition.Evaluate())
                     return transition;
             
@@ -52,35 +66,46 @@ namespace StateMachineSystem
         }
 
         public void AddTransition(IState from, IState to, IPredicate condition) {
-            GetOrAddNode(from).AddTransition(GetOrAddNode(to).State, condition);
+            GetOrAddNode(from).AddTransition(GetOrAddNode(to).state, condition);
         }
         
         public void AddAnyTransition(IState to, IPredicate condition) {
-            anyTransitions.Add(new Transition(GetOrAddNode(to).State, condition));
+            anyTransitions.Add(new Transition(GetOrAddNode(to).state, condition));
         }
 
-        StateNode GetOrAddNode(IState state) {
-            var node = nodes.GetValueOrDefault(state.GetType());
-            
-            if (node == null) {
-                node = new StateNode(state);
-                nodes.Add(state.GetType(), node);
+        /// <summary>
+        /// This method is used to check if the state is already in the state machine,
+        /// if not, it will add it and return it
+        /// </summary>
+        /// <param name="state"> the state to check</param>
+        /// <returns> the node added to the state machine </returns>
+        private StateNode GetOrAddNode(IState state) {
+            StateNode node = nodes.GetValueOrDefault(state.GetType());
+
+            if (node != null)
+            {
+                return node;
             }
-            
+            node = new StateNode(state);
+            nodes.Add(state.GetType(), node);
+
             return node;
         }
 
-        class StateNode {
-            public IState State { get; }
-            public HashSet<ITransition> Transitions { get; }
+        /// <summary>
+        /// This class is responsible for managing the state nodes of the state machine.
+        /// </summary>
+        private class StateNode {
+            public IState state { get; }
+            public HashSet<ITransition> transitions { get; }
             
             public StateNode(IState state) {
-                State = state;
-                Transitions = new HashSet<ITransition>();
+                this.state = state;
+                transitions = new HashSet<ITransition>();
             }
             
             public void AddTransition(IState to, IPredicate condition) {
-                Transitions.Add(new Transition(to, condition));
+                transitions.Add(new Transition(to, condition));
             }
         }
     }
