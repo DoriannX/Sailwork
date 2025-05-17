@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Project/Scenes/SoundIconScene.unity
+    guid: e7289211b39edd2a3a9ffb254c22e747
+  - enabled: 1
     path: Assets/Project/Scenes/MainMenu.unity
     guid: ac4caccb3557e4df39a70ade811c4dd9
   - enabled: 1
