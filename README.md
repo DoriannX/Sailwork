@@ -2,7 +2,7 @@
 
 ## 🎯 Objectif
 
-Sailwork est un projet Unity 6000.1.1f1 dont le but est d’implémenter un système simple où des matelots effectuent des tâches sur un bateau. Lorsqu’un matelot commence une tâche, une barre de progression apparaît et progresse au-dessus de lui. Une fois la tâche terminée, le matelot redevient disponible pour en commencer une autre.
+Sailwork est un projet Unity 6000.1.1f1 dont le but est d’implémenter un système simple où des matelots effectuent des tâches sur un bateau. Lorsqu’un matelot commence une tâche, une barre de progression apparaît et progresse au-dessus de lui. Une fois toutes ses tâches terminées, le matelot redevient disponible pour en commencer une autre.
 
 ## 📦 Structure du projet
 
@@ -27,8 +27,8 @@ L’architecture s’appuie sur les principes suivants :
 
 ## ⚙️ Fonctionnalités principales
 
-- Un ou plusieurs matelots, contrôlés par IA par clic utilisateur.
-- Affectation de tâches : à chaque affectation, le matelot passe à l’état "En cours de tâche" et une barre de progression s’affiche.
+- Un ou plusieurs matelots, contrôlés par IA ou par clic utilisateur.
+- Affectation de tâches : à chaque affectation, une nouvelle tache est ajouté à la liste de tache du matelot. Il se dirige vers la prochaine et quand il l'a atteinte, il se met en état en cours de tâche.
 - Retour à l’état "Disponible" quand il n'a plus de tache dans sa liste.
 - Fatigue après X tâches, nécessitant du repos.
 
@@ -36,7 +36,7 @@ L’architecture s’appuie sur les principes suivants :
 
 Le projet utilise les packages/plugins Unity suivants :
 
-- **Demigiant** (DOTween pour les animations et timelines)
+- **Demigiant** (DOTween pour les animations)
 - **TextMesh Pro** (texte avancé Unity)
 - **SerializedCollections** (gestion de collections sérialisées)
 - **Scalable Grid Prototype Materials** (matériaux pour grille/visualisation)
@@ -64,6 +64,8 @@ Le projet utilise les packages/plugins Unity suivants :
   Ajouter de nouvelles prefabs dans `Assets/Project/Prefabs/` et les relier aux scripts via l’inspecteur Unity.
 - **Modifier la durée des tâches** :  
   Parametrer la durée directement dans l’éditeur via les composants associés aux tâches ou dans un script de configuration.
+- **Ajouter de nouveaux états** :  
+  Creer un script NameState qui hérite de BaseState et ajouter une transition dans SailorController.
 
 ## 📚 Code et documentation
 
@@ -75,7 +77,7 @@ Le projet utilise les packages/plugins Unity suivants :
 ## 🤝 Contribuer
 
 1. Fork le projet
-2. Créer une branche (`feature/ma-feature`)
+2. Créer une branche (`feat-maFeature`)
 3. Commit et push les changements
 4. Ouvrir une Pull Request
 

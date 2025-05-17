@@ -239,9 +239,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "- Cliquez sur une t\xE2che pour l\u2019assigner\n\n-  Le matelot travaille
-    automatiquement\n\n- Barre = progression de la t\xE2che\n\n- Les matelots fatigu\xE9s
-    se reposent seuls.\n\n- Ils redeviennent disponibles une fois repos\xE9s."
+  m_text: "- Cliquez sur un matelot puis sur une t\xE2che pour l\u2019assigner\n\n- 
+    Le matelot travaille automatiquement\n\n- Barre = progression de la t\xE2che\n\n-
+    Les matelots fatigu\xE9s se reposent seuls.\n\n- Ils redeviennent disponibles
+    une fois repos\xE9s."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
