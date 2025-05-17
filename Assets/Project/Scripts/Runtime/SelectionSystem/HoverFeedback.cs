@@ -1,6 +1,6 @@
 using DG.Tweening;
-using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 
 namespace Project.Scripts.Runtime.SelectionSystem

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
 using Project.Scripts.Runtime.Tasks;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 namespace Project.Scripts.Runtime.Gameplay.Sailors

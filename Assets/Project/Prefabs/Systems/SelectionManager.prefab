@@ -58,4 +58,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b230b21e051c4bf68159aff3c71bafa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedSailorArrowPrefab: {fileID: 4038633469017231445, guid: 7f074fcd6254e96b8b999d421c0c2ea5, type: 3}
+  selectedSailorArrowPrefab: {fileID: 4038633469017231445, guid: 6986feebe8042f785a8b1fdd235b5d23, type: 3}

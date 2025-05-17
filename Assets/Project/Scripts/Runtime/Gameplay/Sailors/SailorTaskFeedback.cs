@@ -1,7 +1,7 @@
-using NUnit.Framework;
 using Project.Scripts.Runtime.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 namespace Project.Scripts.Runtime.Gameplay.Sailors
